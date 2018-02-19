@@ -11,7 +11,6 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sk.ubs.jms.MessageProducer;
 import com.sk.ubs.model.Message;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +37,5 @@ public class MessageProducerTest {
     @Test
     public void testSendMessage() throws InterruptedException, MessagingException, JsonProcessingException {
         producer.sendMessage(message);
-        Thread.sleep(1000L);
-        throw new MessagingException("");
     }
 }
