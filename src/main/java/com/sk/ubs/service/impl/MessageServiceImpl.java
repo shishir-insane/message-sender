@@ -37,7 +37,6 @@ public class MessageServiceImpl implements MessageService {
         } catch (MessagingException | JsonProcessingException e) {
             throw new ServiceException(AppUtils.SMS_NOT_SENT_ERROR, e.getMessage());
         }
-
     }
 
     @Override

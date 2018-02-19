@@ -1,5 +1,7 @@
 package com.sk.ubs.controller;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,10 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,7 +39,7 @@ public class MessageControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Mock
+    @MockBean
     private MessageService messageService;
 
     @InjectMocks
@@ -50,10 +53,12 @@ public class MessageControllerTest {
         message.setSentTo("code.star@zoho.eu");
         message.setSentFrom("code.star@zoho.eu");
         message.setBody("Hello Shishir");
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testSendSms() throws Exception {
+        doNothing().when(messageService).sendSms(any(Message.class));
         final String jsonContent = jsonTester.write(message).getJson();
         mvc.perform(post("/sms").content(jsonContent).contentType(MediaType.APPLICATION_JSON)).andDo(print())
         .andExpect(status().isOk());
@@ -61,6 +66,7 @@ public class MessageControllerTest {
 
     @Test
     public void testSendEmail() throws Exception {
+        doNothing().when(messageService).sendEmail(any(Message.class));
         final String jsonContent = jsonTester.write(message).getJson();
         mvc.perform(post("/email").content(jsonContent).contentType(MediaType.APPLICATION_JSON)).andDo(print())
         .andExpect(status().isOk());
@@ -69,7 +75,7 @@ public class MessageControllerTest {
     @Test
     public void testGetMessageList() throws Exception {
         when(messageService.getAllMessages()).thenReturn(Lists.newArrayList(message));
-        mvc.perform(get("/message").contentType(MediaType.APPLICATION_JSON)).andDo(print())
+        mvc.perform(get("/messages").contentType(MediaType.APPLICATION_JSON)).andDo(print())
         .andExpect(status().isOk());
     }
 
