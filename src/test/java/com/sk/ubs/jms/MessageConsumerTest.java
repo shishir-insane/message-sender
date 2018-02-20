@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sk.ubs.model.Message;
 import com.sk.ubs.repository.MessageRepository;
 import com.sk.ubs.sender.MessageSender;
+import com.sk.ubs.util.MessageType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -82,6 +83,55 @@ public class MessageConsumerTest {
         when(mapper.readValue(anyString(), any(Class.class))).thenReturn(message);
         doNothing().when(smsMessageSender).transmitMessage(any(Message.class));
         doNothing().when(emailMessageSender).transmitMessage(any(Message.class));
+        messageConsumer.receiveQueue("");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReceiveQueue_InvalidMessage() throws JsonParseException, JsonMappingException, IOException {
+        final Message invalidMessage = new Message();
+        invalidMessage.setId(1l);
+        invalidMessage.setSentTo(null);
+        invalidMessage.setSentFrom("code.star@zoho.eu");
+        invalidMessage.setBody("Hello Shishir");
+        when(messageRepository.save(any(Message.class))).thenReturn(invalidMessage);
+        when(mapper.readValue(anyString(), any(Class.class))).thenReturn(invalidMessage);
+        doNothing().when(smsMessageSender).transmitMessage(any(Message.class));
+        doNothing().when(emailMessageSender).transmitMessage(any(Message.class));
         messageConsumer.receiveQueue(messageString);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReceiveQueue_SmsMessage() throws JsonParseException, JsonMappingException, IOException {
+        final String smsMessageString = "{\"type\":\"SMS\",\"sentTo\":\"code.star@zoho.eu\",\"sentFrom\":\"code.star@zoho.eu\",\"body\":\"Hello Shishir\"}";
+        final Message smsMessage = new Message();
+        smsMessage.setId(1l);
+        smsMessage.setSentTo(null);
+        smsMessage.setSentFrom("code.star@zoho.eu");
+        smsMessage.setBody("Hello Shishir");
+        smsMessage.setType(MessageType.SMS);
+        when(messageRepository.save(any(Message.class))).thenReturn(message);
+        when(mapper.readValue(anyString(), any(Class.class))).thenReturn(message);
+        doNothing().when(smsMessageSender).transmitMessage(any(Message.class));
+        doNothing().when(emailMessageSender).transmitMessage(any(Message.class));
+        messageConsumer.receiveQueue(smsMessageString);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReceiveQueue_UnsupportedMessage() throws JsonParseException, JsonMappingException, IOException {
+        final String faxMessageString = "{\"type\":\"FAX\",\"sentTo\":\"code.star@zoho.eu\",\"sentFrom\":\"code.star@zoho.eu\",\"body\":\"Hello Shishir\"}";
+        final Message invalidMessage = new Message();
+        invalidMessage.setId(1l);
+        invalidMessage.setSentTo(null);
+        invalidMessage.setSentFrom("code.star@zoho.eu");
+        invalidMessage.setBody("Hello Shishir");
+        invalidMessage.setType(MessageType.FAX);
+        when(messageRepository.save(any(Message.class))).thenReturn(invalidMessage);
+        when(mapper.readValue(anyString(), any(Class.class))).thenReturn(invalidMessage);
+        doNothing().when(smsMessageSender).transmitMessage(any(Message.class));
+        doNothing().when(emailMessageSender).transmitMessage(any(Message.class));
+        messageConsumer.receiveQueue(faxMessageString);
     }
 }

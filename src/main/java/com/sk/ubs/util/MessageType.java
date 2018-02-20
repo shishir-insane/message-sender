@@ -9,5 +9,5 @@
 package com.sk.ubs.util;
 
 public enum MessageType {
-    SMS, EMAIL
+    SMS, EMAIL, FAX // FAX is unsupported message type
 }
