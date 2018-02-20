@@ -1,3 +1,5 @@
+
+# message-sender
 The goal of this task is to implement a service for sending messages. The service should be able to send different types of messages. Currently supported types are:
 - e-mail,
 - text message (sms).
@@ -16,3 +18,27 @@ Preferred technology stack:
 - JSON,
 - gradle/maven,
 - git.
+
+## Deployment
+Install maven package
+
+    $ mvn clean install
+Run the server
+
+    $ mvn sonar:sonar
+
+### Send SMS
+POST `/sms`
+
+    curl -d '{"sentTo":"code.star@zoho.eu","sentFrom":"code.star@zoho.eu","body":"Hello Shishir"}' -H "Content-Type:application/json" -X POST http://localhost:8080/message-sender/sms
+
+### Send Email
+POST `/email`
+
+    curl -d '{"sentTo":"code.star@zoho.eu","sentFrom":"code.star@zoho.eu","body":"Hello Shishir"}' -H "Content-Type:application/json" -X POST http://localhost:8080/message-sender/email
+
+### List All Message
+GET `/messages`
+
+    curl -H "Content-Type:application/json" -X GET http://localhost:8080/message-sender/messages
+

@@ -52,7 +52,7 @@ public class MessageController {
     @RequestMapping(value = "/email", method = RequestMethod.POST)
     @Loggable
     public void sendEmail(@RequestBody final Message message) throws ServiceException {
-        messageService.sendSms(message);
+        messageService.sendEmail(message);
     }
 
     /**
