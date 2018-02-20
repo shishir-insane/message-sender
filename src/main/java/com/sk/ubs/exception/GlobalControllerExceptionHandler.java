@@ -39,7 +39,7 @@ public class GlobalControllerExceptionHandler {
      * @return the api error response
      */
     @ExceptionHandler(value = { ServiceException.class })
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse serviceException(final ServiceException e) {
         return new ApiErrorResponse(500, e.getErrorCode(), e.getMessage());
     }
