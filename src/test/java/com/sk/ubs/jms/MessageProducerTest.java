@@ -1,3 +1,11 @@
+/**
+ * 
+ * MessageProducerTest.java
+ * com.sk.ubs.jms
+ * message-sender
+ * 
+ * Copyright 2018 - Shishir Kumar
+ */
 package com.sk.ubs.jms;
 
 import org.junit.Before;

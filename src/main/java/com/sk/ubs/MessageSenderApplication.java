@@ -1,3 +1,11 @@
+/**
+ *
+ * MessageSenderApplication.java
+ * com.sk.ubs
+ * message-sender
+ *
+ * Copyright 2018 - Shishir Kumar
+ */
 package com.sk.ubs;
 
 import javax.jms.Queue;
@@ -14,10 +22,21 @@ import com.sk.ubs.util.AppUtils;
 @EnableJms
 public class MessageSenderApplication {
 
+    /**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
     public static void main(final String[] args) {
         SpringApplication.run(MessageSenderApplication.class, args);
     }
 
+    /**
+     * Queue.
+     *
+     * @return the queue
+     */
     @Bean
     public Queue queue() {
         return new ActiveMQQueue(AppUtils.QUEUE_NAME);

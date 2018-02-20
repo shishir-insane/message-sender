@@ -1,3 +1,11 @@
+/**
+ *
+ * EmailMessageSender.java
+ * com.sk.ubs.sender.impl
+ * message-sender
+ *
+ * Copyright 2018 - Shishir Kumar
+ */
 package com.sk.ubs.sender.impl;
 
 import org.slf4j.Logger;
@@ -12,6 +20,12 @@ public class EmailMessageSender implements MessageSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailMessageSender.class);
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.sk.ubs.sender.MessageSender#transmitMessage(com.sk.ubs.model.Message)
+     */
     @Override
     public void transmitMessage(final Message message) {
         LOGGER.info("{} recieved at {}", message.getType().name(), message.getSentAt());

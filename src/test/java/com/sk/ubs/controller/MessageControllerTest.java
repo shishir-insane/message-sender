@@ -1,3 +1,11 @@
+/**
+ *
+ * MessageControllerTest.java
+ * com.sk.ubs.controller
+ * message-sender
+ *
+ * Copyright 2018 - Shishir Kumar
+ */
 package com.sk.ubs.controller;
 
 import static org.mockito.Matchers.any;
@@ -75,8 +83,7 @@ public class MessageControllerTest {
     @Test
     public void testGetMessageList() throws Exception {
         when(messageService.getAllMessages()).thenReturn(Lists.newArrayList(message));
-        mvc.perform(get("/messages").contentType(MediaType.APPLICATION_JSON)).andDo(print())
-        .andExpect(status().isOk());
+        mvc.perform(get("/messages").contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
     }
 
 }
